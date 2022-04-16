@@ -43,5 +43,6 @@
 		<module>PetService</module>
 		<module>EurekaServer</module>
 		<module>VetService</module>
+		<module>ConfigurationServer</module>
 	</modules>
 </project>
