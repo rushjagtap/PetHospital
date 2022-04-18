@@ -5,15 +5,19 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.tus.vetservice.dto.Pet;
 import com.tus.vetservice.entity.Vet;
 
 
@@ -22,6 +26,9 @@ import com.tus.vetservice.entity.Vet;
 @RequestMapping(path = "/api/v1")
 public class VetController {
 private final VetService vetService;
+
+@Autowired
+private RestTemplate restTemplate;
 	
 @Autowired
 public VetController(VetService vetService) {
@@ -63,10 +70,24 @@ public ResponseEntity<Vet> updateVet(@PathVariable int id, @RequestBody Vet Vet)
 }
 
 @RequestMapping(value ="/vets/{id}", method = RequestMethod.DELETE)
-public ResponseEntity<Vet> updateVet(@PathVariable int id)
+public ResponseEntity<Vet> deleteVet(@PathVariable int id)
 {
 	Vet deletedVet = vetService.deleteVet(id);
 	return new ResponseEntity<Vet>(deletedVet,HttpStatus.OK);
+}
+
+@GetMapping("/vets/pet/{petId}")
+public List<Vet> drinkSomeWine(@PathVariable int petId) {
+	ResponseEntity<Pet> restExchange = restTemplate.exchange("http://gateway/api/v1/pets/{petId}", HttpMethod.GET,
+			null, Pet.class, petId);
+	System.out.println(restExchange.getBody().getName());
+	String petType = restExchange.getBody().getType();
+	System.out.println(petType);
+	
+	List<Vet> vet = vetService.getVetbySpeciality(petType);
+	
+	return vet;
+
 }
 
 }

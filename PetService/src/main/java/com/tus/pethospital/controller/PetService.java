@@ -6,21 +6,26 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tus.pethospital.dao.OwnerRepository;
 import com.tus.pethospital.dao.PetRepository;
+import com.tus.pethospital.entity.Owner;
 import com.tus.pethospital.entity.Pet;
 
 @Service
 public class PetService {
-	
-	private final PetRepository petRepository;
+	@Autowired
+	 PetRepository petRepository;
 	
 	@Autowired
-	public PetService(PetRepository PetRepo)
-	{
-		this.petRepository = PetRepo;
-		
-	}
+	 OwnerRepository ownerRepository;
 	
+
+//	public PetService(PetRepository PetRepo)
+//	{
+//		this.petRepository = PetRepo;
+//		
+//	}
+//	
 	public List<Pet> getAllPet()
 	{
 		return petRepository.findAll();
@@ -64,5 +69,53 @@ public class PetService {
 		
 		return petRepository.save(existingPet);
 	}
+
+	public List<Owner> getAllOwners()
+	{
+		return ownerRepository.findAll();
+	}
+	
+	public Optional<Owner> getOwner(int id)
+	{
+		return ownerRepository.findById(id);
+	}
+	
+	public List<Owner> getOwner(String name)
+	{
+		
+		return ownerRepository.findByName(name);
+	}
+	
+	public Owner addOwner(Owner owner)
+	{
+		return ownerRepository.save(owner);
+	}
+	
+	public Owner deleteOwner(int id)
+	{
+		System.out.println("test");
+		Optional<Owner> optionalOwner = ownerRepository.findById(id);
+		System.out.println(optionalOwner);
+		Owner existingOwner = optionalOwner.get();
+		ownerRepository.deleteById(id);
+		return existingOwner;
+	}
+	
+	public Owner updateOwner(int id, Owner owner)
+	{
+		
+		Optional<Owner> optionalOwner = ownerRepository.findById(id);
+		
+		Owner existingOwner = optionalOwner.get();
+		existingOwner.setAddress(owner.getAddress());
+		existingOwner.setCity(owner.getCity());
+		existingOwner.setContactNumber(owner.getContactNumber());
+		existingOwner.setName(owner.getName());
+		existingOwner.setOwnerId(owner.getOwnerId());
+		existingOwner.setPets(owner.getPets());
+		
+		return ownerRepository.save(existingOwner);
+	}
+	
 
 }

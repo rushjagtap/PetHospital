@@ -12,7 +12,6 @@ import javax.persistence.SequenceGenerator;
 public class Visit {
 	
 	@Id
-//	@GeneratedValue(strategy = GenerationType.AUTO)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="my_generator_visit")
 	@SequenceGenerator(name="my_generator_visit", sequenceName="MY_SEQUENCE_VISIT", allocationSize = 1)
 	private int visitId;
@@ -24,6 +23,17 @@ public class Visit {
 	 */
 	public LocalDate getDate() {
 		return date;
+	}
+	
+	public Visit()
+	{
+		
+	}
+	public Visit(int visitId, LocalDate date, String description) {
+		super();
+		this.visitId = visitId;
+		this.date = date;
+		this.description = description;
 	}
 	/**
 	 * @param date the date to set

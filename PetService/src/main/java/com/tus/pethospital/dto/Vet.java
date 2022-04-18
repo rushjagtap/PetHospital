@@ -1,28 +1,19 @@
-package com.tus.vetservice.entity;
+package com.tus.pethospital.dto;
+
 
 import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 
 
 
-@Entity
+
+
 public class Vet {
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="my_generator")
-	@SequenceGenerator(name="my_generator", sequenceName="MY_SEQUENCE", allocationSize = 1)
 	private int vetId;
-	
-	@Column(nullable = false)
 	private String name;
+	private String address;
+	private String contactNumber;
+	private String city;
+	private  Set<Speciality> speciality;
 	
 	public Vet(String name, String address, String contactNumber, String city, Set<Speciality> speciality) {
 		
@@ -31,10 +22,6 @@ public class Vet {
 		this.contactNumber = contactNumber;
 		this.city = city;
 		this.speciality = speciality;
-	}
-
-	public Vet() {
-		
 	}
 
 	public int getVetId() {
@@ -85,17 +72,6 @@ public class Vet {
 		this.speciality = speciality;
 	}
 
-	@Column
-	private String address;
-	
-	@Column
-	private String contactNumber;
-	
-	@Column
-	private String city;
-	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "vetId")
-	private  Set<Speciality> speciality;
 
 }
+

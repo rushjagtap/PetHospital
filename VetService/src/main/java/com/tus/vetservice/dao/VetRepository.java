@@ -11,5 +11,7 @@ import com.tus.vetservice.entity.Vet;
 @Repository
 public interface VetRepository extends JpaRepository<Vet, Integer>{
 	List<Vet> findByName(String name);
+	List<Vet> findBySpeciality_PetType(String speciality);
+	
 
 }

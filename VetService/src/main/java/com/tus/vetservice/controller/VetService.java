@@ -35,9 +35,17 @@ private final VetRepository VetRepository;
 		return VetRepository.findByName(name);
 	}
 	
-	public Vet addVet(Vet Vet)
+	public List<Vet> getVetbySpeciality(String speciality)
 	{
-		return VetRepository.save(Vet);
+		return VetRepository.findBySpeciality_PetType(speciality);
+	}
+	
+	public Vet addVet(Vet vet)
+	{
+		System.out.println(vet);
+		System.out.println(vet.getSpeciality());
+		System.out.println(vet.getSpeciality());
+		return VetRepository.save(vet);
 	}
 	
 	public Vet deleteVet(int id)
@@ -54,7 +62,8 @@ private final VetRepository VetRepository;
 	{
 		
 		Optional<Vet> optionalVet = VetRepository.findById(id);
-		
+		System.out.println(optionalVet);
+		System.out.println(id);
 		Vet existingVet = optionalVet.get();
 		existingVet.setAddress(Vet.getAddress());
 		existingVet.setCity(Vet.getCity());
